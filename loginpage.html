@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Styles from the provided CSS */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #d8bfea;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 100%;
+            z-index: 1000;
+        }
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .title {
+            text-align: center;
+            flex: 1;
+        }
+        .navbar {
+            position: absolute;
+            right: 1rem;
+        }
+        .navbar .menu {
+            display: none;
+            position: absolute;
+            right: 2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #d8bfea;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            white-space: nowrap;
+        }
+        .navbar input[type="checkbox"] {
+            display: none;
+        }
+        .navbar label.menu-icon {
+            cursor: pointer;
+            display: inline-block;
+            font-size: 2rem;
+            padding: 0.5rem;
+        }
+        .navbar input[type="checkbox"]:checked ~ .menu {
+            display: flex;
+            flex-direction: row;
+        }
+        .navbar .menu a {
+            padding: 0.5rem;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            text-align: left;
+        }
+        .navbar .menu a:hover {
+            background-color: #c3a8d8;
+        }
+        main {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: #f9f9f9;
+            overflow-y: auto;
+        }
+        .centered-text {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #d8bfea;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c3a8d8;
+        }
+        .register-link, .forgot-password-link {
+            margin-top: 1rem;
+            display: block;
+        }
+        .otp-container {
+            display: none;
+            margin-top: 1rem;
+        }
+        footer {
+            background-color: #d8bfea;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .footer-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0 0.5rem;
+            margin: 0.2rem;
+        }
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var storedProfileData = JSON.parse(localStorage.getItem('profileData'));
+
+            if (storedProfileData && username === storedProfileData.username && password === storedProfileData.password) {
+                alert('Login successful!');
+                window.location.href = 'account.html';
+            } else {
+                alert('Invalid username or password!');
+            }
+        }
+
+        function generateOTP() {
+            var otp = Math.floor(100000 + Math.random() * 900000).toString();
+            localStorage.setItem('otp', otp);
+            // Simulating sending OTP to user's mobile
+            alert('OTP has been sent to your mobile: ' + otp);
+            document.querySelector('.otp-container').style.display = 'block';
+        }
+
+        function validateOTP() {
+            var enteredOTP = document.getElementById('otp').value;
+            var storedOTP = localStorage.getItem('otp');
+            var storedProfileData = JSON.parse(localStorage.getItem('profileData'));
+
+            if (enteredOTP === storedOTP) {
+                alert('OTP validated! Login successful!');
+                window.location.href = 'account.html';
+            } else {
+                alert('Invalid OTP!');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header-content">
+                <h1 class="title">Vibester</h1>
+                <nav class="navbar">
+                    <input type="checkbox" id="menu-toggle">
+                    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+                    <div class="menu">
+                        <a href="home.html">Home</a>
+                        <a href="login.html">Login</a>
+                        <a href="about.html">About</a>
+                        <a href="help.html">Help</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        
+        <main>
+            <div class="login-container">
+                <h2>Login</h2>
+                <form onsubmit="login(); return false;">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="forgot-password-link">
+                    <a href="#" onclick="generateOTP(); return false;">Forgot Password?</a>
+                </div>
+                <div class="register-link">
+                    <span class="bold-text">New to Vibes?</span> <a href="register.html">Register</a>
+                </div>
+                <div class="otp-container">
+                    <h3>Enter OTP</h3>
+                    <div class="input-group">
+                        <label for="otp">OTP</label>
+                        <input type="text" id="otp" name="otp" required>
+                    </div>
+                    <button onclick="validateOTP(); return false;">Submit OTP</button>
+                </div>
+            </div>
+        </main>
+
+        
+    </div>
+</body>
+</html>
